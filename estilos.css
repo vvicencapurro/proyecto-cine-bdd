@@ -1,0 +1,122 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #400011;
+    color: #F2EEE6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;      /* antes height: 100vh, cortaba el contenido largo */
+    margin: 0;
+}
+
+.contenedor {
+    background-color: rgb(46, 3, 3);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 80%;
+    margin: 40px auto;
+}
+
+.contenedor.chico {
+    max-width: 400px;
+}
+
+h1 {                        /* antes decía .h1 (con punto) y no funcionaba */
+    color: gray;
+}
+
+.botones {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    gap: 15px;
+    justify-content: center;
+}
+
+.botones a {
+    color: white;
+    background-color: #5c0a1f;
+    padding: 25px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.botones a:hover {
+    background-color: #555555;
+}
+
+/* ---------- Formularios ---------- */
+form label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5c0a1f;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #555555;
+}
+
+/* ---------- Mensajes ---------- */
+.mensaje {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.mensaje.error {
+    background-color: #7a1c1c;
+}
+
+.mensaje.ok {
+    background-color: #1f5c2e;
+}
+
+.enlace {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.enlace a {
+    color: #F2EEE6;
+}
+
+/* ---------- Tablas de datos ---------- */
+.tabla-scroll {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #5c0a1f;
+}
+
+th {
+    background-color: #5c0a1f;
+}
