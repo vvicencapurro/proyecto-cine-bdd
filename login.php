@@ -2,7 +2,7 @@
 session_start();
 include 'conexion.php';
 
-// Si ya está logueado, lo mandamos directo al menú
+
 if (isset($_SESSION['id_usuario'])) {
     header("Location: index.php");
     exit;
@@ -12,10 +12,10 @@ $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $dato  = trim($_POST['nombre_usuario'] ?? '');   // puede ser usuario o email
+    $dato  = trim($_POST['nombre_usuario'] ?? '');
     $clave = $_POST['password'] ?? '';
 
-    // Buscamos al usuario por nombre o por email
+
     $stmt = mysqli_prepare($conexion,
         "SELECT id_usuario, nombre_usuario, password
          FROM usuarios
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $resultado = mysqli_stmt_get_result($stmt);
     $usuario = mysqli_fetch_assoc($resultado);
 
-    // password_verify compara lo que escribió con el hash guardado
+
     if ($usuario && password_verify($clave, $usuario['password'])) {
         session_regenerate_id(true);
         $_SESSION['id_usuario'] = $usuario['id_usuario'];

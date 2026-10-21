@@ -1,8 +1,8 @@
 <?php
-include 'auth.php';       // solo usuarios logueados
+include 'auth.php';
 include 'conexion.php';
 
-// Lista de tablas que se pueden mostrar (así nadie puede pedir otra cosa por la URL)
+
 $permitidas = [
     "peliculas"       => "Películas",
     "productoras"     => "Productoras",

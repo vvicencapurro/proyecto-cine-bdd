@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $clave  = $_POST['password'] ?? '';
     $clave2 = $_POST['password2'] ?? '';
 
-    // 1) Validaciones básicas
+
     if ($nombre == "" || $email == "" || $clave == "") {
         $error = "Completá todos los campos.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Las contraseñas no coinciden.";
     } else {
 
-        // 2) Ver si ya existe ese usuario o ese email
+
         $stmt = mysqli_prepare($conexion,
             "SELECT id_usuario FROM usuarios WHERE nombre_usuario = ? OR email = ?");
         mysqli_stmt_bind_param($stmt, "ss", $nombre, $email);
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "Ese usuario o ese email ya está registrado.";
         } else {
 
-            // 3) Guardar la contraseña "mezclada" (hash), nunca el texto real
+
             $hash = password_hash($clave, PASSWORD_DEFAULT);
 
             $stmt2 = mysqli_prepare($conexion,

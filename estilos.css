@@ -5,7 +5,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;      /* antes height: 100vh, cortaba el contenido largo */
+    min-height: 100vh;
     margin: 0;
 }
 
@@ -22,7 +22,7 @@ body {
     max-width: 400px;
 }
 
-h1 {                        /* antes decía .h1 (con punto) y no funcionaba */
+h1 {
     color: gray;
 }
 
@@ -46,7 +46,7 @@ h1 {                        /* antes decía .h1 (con punto) y no funcionaba */
     background-color: #555555;
 }
 
-/* ---------- Formularios ---------- */
+
 form label {
     display: block;
     margin-top: 15px;
@@ -77,7 +77,7 @@ form button:hover {
     background-color: #555555;
 }
 
-/* ---------- Mensajes ---------- */
+
 .mensaje {
     padding: 10px;
     border-radius: 5px;
@@ -100,7 +100,7 @@ form button:hover {
     color: #F2EEE6;
 }
 
-/* ---------- Tablas de datos ---------- */
+
 .tabla-scroll {
     overflow-x: auto;
 }
