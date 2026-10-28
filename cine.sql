@@ -1,14 +1,18 @@
 
+
 drop database if exists cine;
 create database cine;
 use cine;
 
 
+-- 1. PAISES
 create table paises (
     id_pais int primary key auto_increment,
     nombre_pais varchar(100) not null unique
 );
 
+
+-- 2. DIRECTORES
 create table directores (
     id_director int primary key auto_increment,
     nombre_director varchar(100) not null,
@@ -16,11 +20,15 @@ create table directores (
     email varchar(100)
 );
 
+
+-- 3. GENEROS
 create table generos (
     id_genero int primary key auto_increment,
     nombre_genero varchar(50) not null
 );
 
+
+-- 4. PRODUCTORAS
 create table productoras (
     id_productora int primary key auto_increment,
     nombre_productora varchar(100) not null,
@@ -28,21 +36,29 @@ create table productoras (
     foreign key (id_pais) references paises(id_pais)
 );
 
+
+-- 5. TIPOS_FUNCIONES
 create table tipos_funciones (
     id_tipo_funcion int primary key auto_increment,
     descripcion varchar(100) not null
 );
 
+
+-- 6. CIUDADES
 create table ciudades (
     id_ciudad int primary key auto_increment,
     nombre varchar(100) not null
 );
 
+
+-- 7. PUESTOS
 create table puestos (
     id_puesto int primary key auto_increment,
     nombre varchar(50) not null
 );
 
+
+-- 8. CLIENTES
 create table clientes (
     id_cliente int primary key auto_increment,
     nombre_cliente varchar(100) not null,
@@ -50,6 +66,8 @@ create table clientes (
     telefono varchar(20)
 );
 
+
+-- 9. PRODUCTOS
 create table productos (
     id_producto int primary key auto_increment,
     nombre_producto varchar(100) not null,
@@ -58,6 +76,8 @@ create table productos (
     stock int not null
 );
 
+
+-- 10. PROMOCIONES
 create table promociones (
     id_promocion int primary key auto_increment,
     nombre_promocion varchar(100) not null,
@@ -67,6 +87,7 @@ create table promociones (
 );
 
 
+-- 11. PELICULAS
 create table peliculas (
     id_pelicula int primary key auto_increment,
     nombre_pelicula varchar(100) not null,
@@ -79,6 +100,8 @@ create table peliculas (
     foreign key (id_productora) references productoras(id_productora)
 );
 
+
+-- 12. SUCURSALES
 create table sucursales (
     id_sucursal int primary key auto_increment,
     nombre_sucursal varchar(100) not null,
@@ -88,6 +111,8 @@ create table sucursales (
     foreign key (id_ciudad) references ciudades(id_ciudad)
 );
 
+
+-- 13. EMPLEADOS
 create table empleados (
     id_empleado int primary key auto_increment,
     nombre_empleado varchar(100) not null,
@@ -97,6 +122,8 @@ create table empleados (
     foreign key (id_sucursal) references sucursales(id_sucursal)
 );
 
+
+-- 14. SALAS
 create table salas (
     id_sala int primary key auto_increment,
     numero int not null,
@@ -107,6 +134,8 @@ create table salas (
     foreign key (id_tipo_funcion) references tipos_funciones(id_tipo_funcion)
 );
 
+
+-- 15. FUNCIONES
 create table funciones (
     id_funcion int primary key auto_increment,
     fecha date not null,
@@ -119,6 +148,8 @@ create table funciones (
     foreign key (id_tipo_funcion) references tipos_funciones(id_tipo_funcion)
 );
 
+
+-- 16. BUTACAS
 create table butacas (
     id_butaca int primary key auto_increment,
     fila varchar(5) not null,
@@ -128,6 +159,8 @@ create table butacas (
     foreign key (id_sala) references salas(id_sala)
 );
 
+
+-- 17. VENTAS
 create table ventas (
     id_venta int primary key auto_increment,
     fecha date not null,
@@ -140,6 +173,7 @@ create table ventas (
 );
 
 
+-- 18. PRODUCTOS_VENTAS
 create table productos_ventas (
     id_producto_venta int primary key auto_increment,
     precio_final decimal(10,2) not null,
@@ -150,6 +184,8 @@ create table productos_ventas (
     foreign key (id_producto) references productos(id_producto)
 );
 
+
+-- 19. ENTRADAS
 create table entradas (
     id_entrada int primary key auto_increment,
     precio decimal(10,2) not null,
@@ -163,6 +199,7 @@ create table entradas (
 );
 
 
+-- 20. USUARIOS
 create table usuarios (
     id_usuario int primary key auto_increment,
     nombre_usuario varchar(50) not null unique,
@@ -171,6 +208,10 @@ create table usuarios (
     fecha_registro datetime default current_timestamp
 );
 
+
+-- =========================================
+-- INSERTS
+-- =========================================
 
 -- 1. PAISES
 insert into paises values
@@ -429,6 +470,10 @@ insert into productos_ventas values
 (10, 18000.00, 1, 10, 10);
 
 
+-- =========================================
+-- CONSULTAS
+-- =========================================
+
 -- consulta 1
 select
     peliculas.id_pelicula,
@@ -439,10 +484,14 @@ select
     productoras.nombre_productora,
     paises.nombre_pais
 from peliculas
-inner join directores on peliculas.id_director = directores.id_director
-inner join generos on peliculas.id_genero = generos.id_genero
-inner join productoras on peliculas.id_productora = productoras.id_productora
-inner join paises on productoras.id_pais = paises.id_pais;
+inner join directores
+    on peliculas.id_director = directores.id_director
+inner join generos
+    on peliculas.id_genero = generos.id_genero
+inner join productoras
+    on peliculas.id_productora = productoras.id_productora
+inner join paises
+    on productoras.id_pais = paises.id_pais;
 
 
 -- consulta 2
@@ -453,22 +502,26 @@ select
     salas.numero,
     tipos_funciones.descripcion
 from funciones
-inner join peliculas on funciones.id_pelicula = peliculas.id_pelicula
-inner join salas on funciones.id_sala = salas.id_sala
-inner join tipos_funciones on funciones.id_tipo_funcion = tipos_funciones.id_tipo_funcion;
+inner join peliculas
+    on funciones.id_pelicula = peliculas.id_pelicula
+inner join salas
+    on funciones.id_sala = salas.id_sala
+inner join tipos_funciones
+    on funciones.id_tipo_funcion = tipos_funciones.id_tipo_funcion;
 
 
--- 3
+-- consulta 3
 select
     peliculas.nombre_pelicula,
     peliculas.duracion_en_min,
     generos.nombre_genero
 from peliculas
-inner join generos on peliculas.id_genero = generos.id_genero
+inner join generos
+    on peliculas.id_genero = generos.id_genero
 where generos.nombre_genero = 'romance';
 
 
--- 4
+-- consulta 4
 select
     funciones.id_funcion,
     peliculas.nombre_pelicula,
@@ -479,13 +532,17 @@ select
     butacas.numero,
     salas.numero as numero_sala
 from funciones
-inner join peliculas on funciones.id_pelicula = peliculas.id_pelicula
-inner join salas on funciones.id_sala = salas.id_sala
-inner join butacas on salas.id_sala = butacas.id_sala
-where funciones.id_funcion = 5 and butacas.estado = 'disponible';
+inner join peliculas
+    on funciones.id_pelicula = peliculas.id_pelicula
+inner join salas
+    on funciones.id_sala = salas.id_sala
+inner join butacas
+    on salas.id_sala = butacas.id_sala
+where funciones.id_funcion = 5
+  and butacas.estado = 'disponible';
 
 
--- 5
+-- consulta 5
 select
     ventas.id_venta,
     clientes.nombre_cliente,
@@ -496,29 +553,35 @@ select
     entradas.lugar,
     ventas.metodo_pago
 from entradas
-inner join ventas on entradas.id_venta = ventas.id_venta
-inner join clientes on ventas.id_cliente = clientes.id_cliente
-inner join funciones on entradas.id_funcion = funciones.id_funcion
-inner join peliculas on funciones.id_pelicula = peliculas.id_pelicula
+inner join ventas
+    on entradas.id_venta = ventas.id_venta
+inner join clientes
+    on ventas.id_cliente = clientes.id_cliente
+inner join funciones
+    on entradas.id_funcion = funciones.id_funcion
+inner join peliculas
+    on funciones.id_pelicula = peliculas.id_pelicula
 where clientes.id_cliente = 1
 order by ventas.fecha desc, ventas.hora desc;
 
 
--- 6
+-- consulta 6
 select
     peliculas.nombre_pelicula,
     count(entradas.id_entrada) as entradas_vendidas,
     sum(entradas.precio) as recaudacion_total
 from peliculas
-inner join funciones on peliculas.id_pelicula = funciones.id_pelicula
-inner join entradas on funciones.id_funcion = entradas.id_funcion
+inner join funciones
+    on peliculas.id_pelicula = funciones.id_pelicula
+inner join entradas
+    on funciones.id_funcion = entradas.id_funcion
 group by
     peliculas.id_pelicula,
     peliculas.nombre_pelicula
 order by recaudacion_total desc;
 
 
--- 7
+-- consulta 7
 select
     nombre_producto,
     descripcion,
@@ -529,20 +592,23 @@ where stock <= 30
 order by stock desc;
 
 
--- 8
+-- consulta 8
 select
     sucursales.nombre_sucursal,
     ciudades.nombre as ciudad,
     count(entradas.id_entrada) as entradas_vendidas,
     sum(entradas.precio) as ingresos_totales
 from sucursales
-inner join salas on sucursales.id_sucursal = salas.id_sucursal
-inner join funciones on salas.id_sala = funciones.id_sala
-inner join entradas on funciones.id_funcion = entradas.id_funcion
-inner join ciudades on sucursales.id_ciudad = ciudades.id_ciudad
+inner join salas
+    on sucursales.id_sucursal = salas.id_sucursal
+inner join funciones
+    on salas.id_sala = funciones.id_sala
+inner join entradas
+    on funciones.id_funcion = entradas.id_funcion
+inner join ciudades
+    on sucursales.id_ciudad = ciudades.id_ciudad
 group by
     sucursales.id_sucursal,
     sucursales.nombre_sucursal,
     ciudades.nombre
 order by ingresos_totales desc;
-
