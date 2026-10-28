@@ -1,7 +1,13 @@
+
 drop database if exists cine;
 create database cine;
 use cine;
 
+
+create table paises (
+    id_pais int primary key auto_increment,
+    nombre_pais varchar(100) not null unique
+);
 
 create table directores (
     id_director int primary key auto_increment,
@@ -18,7 +24,8 @@ create table generos (
 create table productoras (
     id_productora int primary key auto_increment,
     nombre_productora varchar(100) not null,
-    pais varchar(50)
+    id_pais int not null,
+    foreign key (id_pais) references paises(id_pais)
 );
 
 create table tipos_funciones (
@@ -60,7 +67,6 @@ create table promociones (
 );
 
 
-
 create table peliculas (
     id_pelicula int primary key auto_increment,
     nombre_pelicula varchar(100) not null,
@@ -77,6 +83,8 @@ create table sucursales (
     id_sucursal int primary key auto_increment,
     nombre_sucursal varchar(100) not null,
     id_ciudad int not null,
+    direccion varchar(150),
+    telefono varchar(20),
     foreign key (id_ciudad) references ciudades(id_ciudad)
 );
 
@@ -132,7 +140,6 @@ create table ventas (
 );
 
 
-
 create table productos_ventas (
     id_producto_venta int primary key auto_increment,
     precio_final decimal(10,2) not null,
@@ -163,7 +170,14 @@ create table usuarios (
     password varchar(255) not null,
     fecha_registro datetime default current_timestamp
 );
--- 1. CIUDADES
+
+
+-- 1. PAISES
+insert into paises values
+(1, 'estados unidos');
+
+
+-- 2. CIUDADES
 insert into ciudades values
 (1, 'buenos aires'),
 (2, 'cordoba'),
@@ -176,7 +190,8 @@ insert into ciudades values
 (9, 'santa fe'),
 (10, 'san juan');
 
--- 2. DIRECTORES
+
+-- 3. DIRECTORES
 insert into directores values
 (1, 'christopher nolan', 56, 'nolan@email.com'),
 (2, 'james cameron', 72, 'cameron@email.com'),
@@ -189,7 +204,8 @@ insert into directores values
 (9, 'guillermo del toro', 62, 'toro@email.com'),
 (10, 'james wan', 49, 'wan@email.com');
 
--- 3. GENEROS
+
+-- 4. GENEROS
 insert into generos values
 (1, 'accion'),
 (2, 'aventura'),
@@ -202,20 +218,22 @@ insert into generos values
 (9, 'suspenso'),
 (10, 'fantasia');
 
--- 4. PRODUCTORAS
-insert into productoras values
-(1, 'warner bros', 'estados unidos'),
-(2, 'universal pictures', 'estados unidos'),
-(3, 'paramount pictures', 'estados unidos'),
-(4, 'disney', 'estados unidos'),
-(5, 'sony pictures', 'estados unidos'),
-(6, '20th century studios', 'estados unidos'),
-(7, 'netflix', 'estados unidos'),
-(8, 'columbia pictures', 'estados unidos'),
-(9, 'dreamworks', 'estados unidos'),
-(10, 'lionsgate', 'estados unidos');
 
--- 5. TIPOS_FUNCIONES
+-- 5. PRODUCTORAS
+insert into productoras values
+(1, 'warner bros', 1),
+(2, 'universal pictures', 1),
+(3, 'paramount pictures', 1),
+(4, 'disney', 1),
+(5, 'sony pictures', 1),
+(6, '20th century studios', 1),
+(7, 'netflix', 1),
+(8, 'columbia pictures', 1),
+(9, 'dreamworks', 1),
+(10, 'lionsgate', 1);
+
+
+-- 6. TIPOS_FUNCIONES
 insert into tipos_funciones values
 (1, '2d'),
 (2, '3d'),
@@ -228,7 +246,8 @@ insert into tipos_funciones values
 (9, 'matinee'),
 (10, 'estreno');
 
--- 6. PUESTOS
+
+-- 7. PUESTOS
 insert into puestos values
 (1, 'gerente'),
 (2, 'cajero'),
@@ -241,7 +260,8 @@ insert into puestos values
 (9, 'atencion al cliente'),
 (10, 'administrativo');
 
--- 7. CLIENTES
+
+-- 8. CLIENTES
 insert into clientes values
 (1, 'ana martinez', 'ana@email.com', '1111111111'),
 (2, 'pedro lopez', 'pedro@email.com', '2222222222'),
@@ -254,7 +274,8 @@ insert into clientes values
 (9, 'julieta romero', 'julieta@email.com', '9999999999'),
 (10, 'facundo torres', 'facundo@email.com', '1010101010');
 
--- 8. PRODUCTOS
+
+-- 9. PRODUCTOS
 insert into productos values
 (1, 'pochoclos grandes', 'balde grande de pochoclos', 8500.00, 50),
 (2, 'pochoclos chicos', 'vaso chico de pochoclos', 4500.00, 60),
@@ -267,7 +288,8 @@ insert into productos values
 (9, 'pancho', 'pancho con aderezos', 4000.00, 25),
 (10, 'combo familiar', 'pochoclos y cuatro bebidas', 18000.00, 20);
 
--- 9. PROMOCIONES
+
+-- 10. PROMOCIONES
 insert into promociones values
 (1, 'descuento estudiantes', 15.00, '2026-01-01', '2026-12-31'),
 (2, 'martes de cine', 20.00, '2026-01-01', '2026-12-31'),
@@ -280,7 +302,8 @@ insert into promociones values
 (9, 'descuento online', 8.00, '2026-01-01', '2026-12-31'),
 (10, 'dia del cine', 30.00, '2026-10-01', '2026-12-31');
 
--- 10. SUCURSALES
+
+-- 11. SUCURSALES
 insert into sucursales values
 (1, 'cinemax centro', 1, 'avenida corrientes 100', '1100000001'),
 (2, 'cinemax norte', 1, 'avenida cabildo 200', '1100000002'),
@@ -293,7 +316,8 @@ insert into sucursales values
 (9, 'cinemax neuquen', 8, 'avenida argentina 900', '2990000001'),
 (10, 'cinemax santa fe', 9, 'calle san martin 1000', '3400000002');
 
--- 11. PELICULAS
+
+-- 12. PELICULAS
 insert into peliculas values
 (1, 'oppenheimer', 1, 180, 4, 1),
 (2, 'titanic', 2, 195, 7, 3),
@@ -306,7 +330,8 @@ insert into peliculas values
 (9, 'la forma del agua', 9, 123, 7, 6),
 (10, 'el conjuro', 10, 112, 6, 2);
 
--- 12. SALAS
+
+-- 13. SALAS
 insert into salas values
 (1, 1, 100, 1, 1),
 (2, 2, 120, 1, 2),
@@ -319,7 +344,8 @@ insert into salas values
 (9, 1, 70, 8, 8),
 (10, 1, 140, 9, 10);
 
--- 13. EMPLEADOS
+
+-- 14. EMPLEADOS
 insert into empleados values
 (1, 'juan perez', 1, 1),
 (2, 'maria gomez', 2, 1),
@@ -332,7 +358,8 @@ insert into empleados values
 (9, 'benjamin flores', 9, 8),
 (10, 'martina castro', 10, 9);
 
--- 14. BUTACAS
+
+-- 15. BUTACAS
 insert into butacas values
 (1, 'a', 1, 'disponible', 1),
 (2, 'a', 2, 'ocupada', 1),
@@ -345,7 +372,8 @@ insert into butacas values
 (9, 'd', 2, 'disponible', 7),
 (10, 'e', 1, 'disponible', 8);
 
--- 15. FUNCIONES
+
+-- 16. FUNCIONES
 insert into funciones values
 (1, '2026-10-15', '14:00:00', 1, 1, 1),
 (2, '2026-10-15', '17:00:00', 2, 2, 2),
@@ -358,7 +386,8 @@ insert into funciones values
 (9, '2026-10-18', '19:00:00', 9, 9, 8),
 (10, '2026-10-18', '21:30:00', 10, 10, 10);
 
--- 16. VENTAS
+
+-- 17. VENTAS
 insert into ventas values
 (1, '2026-10-15', '13:00:00', 'efectivo', 1, 1),
 (2, '2026-10-15', '16:00:00', 'tarjeta', 2, 2),
@@ -371,7 +400,8 @@ insert into ventas values
 (9, '2026-10-18', '18:00:00', 'credito', 9, 9),
 (10, '2026-10-18', '20:30:00', 'efectivo', 10, 10);
 
--- 17. ENTRADAS
+
+-- 18. ENTRADAS
 insert into entradas values
 (1, 8000.00, 'sala 1', 1, 1, 1),
 (2, 8500.00, 'sala 2', 2, 2, 2),
@@ -384,7 +414,8 @@ insert into entradas values
 (9, 9000.00, 'sala 9', 9, 9, 9),
 (10, 11000.00, 'sala 10', 10, 10, 10);
 
--- 18. PRODUCTOS_VENTAS
+
+-- 19. PRODUCTOS_VENTAS
 insert into productos_ventas values
 (1, 8500.00, 1, 1, 1),
 (2, 4500.00, 1, 2, 2),
@@ -397,6 +428,7 @@ insert into productos_ventas values
 (9, 8000.00, 2, 9, 9),
 (10, 18000.00, 1, 10, 10);
 
+
 -- consulta 1
 select
     peliculas.id_pelicula,
@@ -404,11 +436,15 @@ select
     peliculas.duracion_en_min,
     directores.nombre_director,
     generos.nombre_genero,
-    productoras.nombre_productora
+    productoras.nombre_productora,
+    paises.nombre_pais
 from peliculas
 inner join directores on peliculas.id_director = directores.id_director
 inner join generos on peliculas.id_genero = generos.id_genero
-inner join productoras on peliculas.id_productora = productoras.id_productora;
+inner join productoras on peliculas.id_productora = productoras.id_productora
+inner join paises on productoras.id_pais = paises.id_pais;
+
+
 -- consulta 2
 select
     peliculas.nombre_pelicula,
@@ -420,6 +456,8 @@ from funciones
 inner join peliculas on funciones.id_pelicula = peliculas.id_pelicula
 inner join salas on funciones.id_sala = salas.id_sala
 inner join tipos_funciones on funciones.id_tipo_funcion = tipos_funciones.id_tipo_funcion;
+
+
 -- 3
 select
     peliculas.nombre_pelicula,
@@ -428,6 +466,8 @@ select
 from peliculas
 inner join generos on peliculas.id_genero = generos.id_genero
 where generos.nombre_genero = 'romance';
+
+
 -- 4
 select
     funciones.id_funcion,
@@ -443,6 +483,8 @@ inner join peliculas on funciones.id_pelicula = peliculas.id_pelicula
 inner join salas on funciones.id_sala = salas.id_sala
 inner join butacas on salas.id_sala = butacas.id_sala
 where funciones.id_funcion = 5 and butacas.estado = 'disponible';
+
+
 -- 5
 select
     ventas.id_venta,
@@ -460,6 +502,8 @@ inner join funciones on entradas.id_funcion = funciones.id_funcion
 inner join peliculas on funciones.id_pelicula = peliculas.id_pelicula
 where clientes.id_cliente = 1
 order by ventas.fecha desc, ventas.hora desc;
+
+
 -- 6
 select
     peliculas.nombre_pelicula,
@@ -472,6 +516,8 @@ group by
     peliculas.id_pelicula,
     peliculas.nombre_pelicula
 order by recaudacion_total desc;
+
+
 -- 7
 select
     nombre_producto,
@@ -481,6 +527,8 @@ select
 from productos
 where stock <= 30
 order by stock desc;
+
+
 -- 8
 select
     sucursales.nombre_sucursal,
@@ -497,3 +545,4 @@ group by
     sucursales.nombre_sucursal,
     ciudades.nombre
 order by ingresos_totales desc;
+
